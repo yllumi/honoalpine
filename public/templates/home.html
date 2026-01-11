@@ -1,22 +1,45 @@
 <div id="home" x-data="home">
-  
   <ha-header title="Homepage"></ha-header>
 
-  <div id="appCapsule" class="px-3 mt-3">
-    <p x-html="description"></p>
+  <div id="appCapsule" class="px-3">
+    <div class="blog-list mt-2">
+      <template x-for="item in blog" :key="item.id">
+        <div class="card mb-2 p-2">
+          <h3 x-text="item.title" class="h3 mb-3"></h3>
+          <p x-html="item.content" class="lead"></p>
+        </div>
+      </template>
+      
+      <template x-if="blog.length === 0">
+        <p>Memuat konten...</p>
+      </template>
+    </div>
   </div>
 
   <ha-bottommenu></ha-bottommenu>
-  
 </div>
 
 <script>
   Alpine.data("home", function () {
     return {
-      description: "Sudah merupakan fakta bahwa seorang pembaca akan terpengaruh oleh isi tulisan dari sebuah halaman saat ia melihat tata letaknya. Maksud penggunaan Lorem Ipsum adalah karena ia kurang lebih memiliki penyebaran huruf yang normal, ketimbang menggunakan kalimat seperti \"Bagian isi disini, bagian isi disini\"",
+      description: "Artikel Terbaru",
+      blog: [],
 
-      init() {
+      async init() {
         Alpine.store('core').module = 'home';
+
+        try {
+          // Fetch data dari rute Hono (asumsi rute backend di /api/home)
+          const response = await fetch('/api/home'); 
+          const result = await response.json();
+
+          if (result.status === 'ok') {
+            this.blog = result.data;
+          }
+        } catch (err) {
+          console.error("Gagal fetch blog:", err);
+          this.description = "Gagal memuat artikel.";
+        }
       },
     };
   });

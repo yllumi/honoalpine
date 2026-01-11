@@ -4,6 +4,9 @@ import routes from "./routes";
 
 const app = new Hono();
 
+// Memasang semua route controller yang sudah didefinisikan di backend
+app.route("/", routes);
+
 // Serving file statik (CSS, JS, Gambar)
 app.use("/static/*", serveStatic({ root: "./" }));
 app.use("/main.js", serveStatic({ path: "/public/main.js" }));
@@ -22,9 +25,6 @@ app.get(
 // Halaman utama sekaligus fallback menampilkan main layout
 // karena frontend routing di-handle oleh Alpine + Pinecone Router
 app.get("*", serveStatic({ path: "/public/layout.html" }));
-
-// Memasang semua route controller yang sudah didefinisikan
-app.route("/", routes);
 
 export default {
   port: 3000,
