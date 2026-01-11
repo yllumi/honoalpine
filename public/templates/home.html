@@ -1,0 +1,23 @@
+<div id="home" x-data="home">
+  
+  <ha-header title="Homepage"></ha-header>
+
+  <div id="appCapsule" class="px-3 mt-3">
+    <p x-html="description"></p>
+  </div>
+
+  <ha-bottommenu></ha-bottommenu>
+  
+</div>
+
+<script>
+  Alpine.data("home", function () {
+    return {
+      description: "Sudah merupakan fakta bahwa seorang pembaca akan terpengaruh oleh isi tulisan dari sebuah halaman saat ia melihat tata letaknya. Maksud penggunaan Lorem Ipsum adalah karena ia kurang lebih memiliki penyebaran huruf yang normal, ketimbang menggunakan kalimat seperti \"Bagian isi disini, bagian isi disini\"",
+
+      init() {
+        Alpine.store('core').module = 'home';
+      },
+    };
+  });
+</script>

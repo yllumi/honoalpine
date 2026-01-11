@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import home from '../pages/home/controller'
+import home from './controllers/home'
 
 // Semua route disini under segment /api
 const routes = new Hono().basePath('/api')

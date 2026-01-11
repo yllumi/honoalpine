@@ -4,7 +4,10 @@ document.addEventListener("alpine:init", () => {
     targetID: "app",
   });
 
+  Alpine.store('core', {
+    module: 'home',
+  })
+
   // Frontend template routers
-  window.PineconeRouter.add("/", { templates: ["/template/home"] });
-  window.PineconeRouter.add("/about", { templates: ["/template/about"] });
+  // window.PineconeRouter.add("/", { templates: ["/template/home"], preload: true });
 });
