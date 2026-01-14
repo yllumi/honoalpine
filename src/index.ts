@@ -25,7 +25,7 @@ app.get(
 
 // Halaman utama sekaligus fallback menampilkan main layout
 // karena frontend routing di-handle oleh Alpine + Pinecone Router
-app.get("*", serveStatic({ path: "/src/views/layout.html" }));
+app.get("*", serveStatic({ path: "/src/views/index.html" }));
 
 export default {
   port: 3000,
