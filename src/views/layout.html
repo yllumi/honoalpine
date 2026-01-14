@@ -10,19 +10,22 @@
     <title>Belajar Bun & Hono</title>
     <link rel="stylesheet" href="/static/css/style.css" />
     <link rel="stylesheet" href="/static/css/custom.css" />
-
+    
     <script src="//cdn.jsdelivr.net/npm/pinecone-router@7.3.0/dist/router.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@imacrayon/alpine-ajax@0.12.6/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="/components.js"></script>
+    <script src="/helper.js"></script>
     <script src="/main.js"></script>
   </head>
   <body>
     <div id="app" x-data></div>
-
+    
     <div id="router" x-data>
       <template x-route="/" x-template="/template/home.html"></template>
       <template x-route="/about" x-template="/template/about.html"></template>
+      <template x-route="notfound" x-template="/template/404.html"></template>
     </div>
+    
   </body>
 </html>

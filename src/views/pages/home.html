@@ -1,4 +1,12 @@
-<div id="home" x-data="home">
+<style>
+  #home .card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+  }
+</style>
+
+<section id="home" x-data="home">
   <ha-header title="Homepage"></ha-header>
 
   <div id="appCapsule" class="px-3">
@@ -17,7 +25,7 @@
   </div>
 
   <ha-bottommenu></ha-bottommenu>
-</div>
+</section>
 
 <script>
   Alpine.data("home", function () {
@@ -29,9 +37,9 @@
         Alpine.store('core').module = 'home';
 
         try {
-          // Fetch data dari rute Hono (asumsi rute backend di /api/home)
-          const response = await fetch('/api/home'); 
-          const result = await response.json();
+          // Fetch data dari rute Hono menggunakan $heroicHelper
+          const response = await $heroicHelper.fetch('api/home'); 
+          const result = response.data; // response.data sudah berisi parsed JSON
 
           if (result.status === 'ok') {
             this.blog = result.data;

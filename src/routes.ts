@@ -2,9 +2,7 @@ import { Hono } from 'hono'
 import home from './controllers/home'
 
 // Semua route disini under segment /api
-const routes = new Hono().basePath('/api')
+const api = new Hono().basePath('/api')
+api.route('/home', home)
 
-// Kumpulan route Anda
-routes.route('/home', home)
-
-export default routes
+export default api
