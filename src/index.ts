@@ -3,15 +3,17 @@ import { serveStatic } from "hono/bun";
 import api from "./routes";
 
 const app = new Hono();
+const isProd = process.env.NODE_ENV === 'production';
 
 // Memasang semua route controller yang sudah didefinisikan di backend
 app.route("/", api);
 
-// Serving file statik (CSS, JS, Gambar)
-app.use("/static/*", serveStatic({ root: "./" }));
-app.use("/main.js", serveStatic({ path: "/src/views/main.js" }));
-app.use("/helper.js", serveStatic({ path: "/src/views/helper.js" }));
-app.use("/components.js", serveStatic({ path: "/src/views/components.js" }));
+// Serve file statis
+// Di HTML, Anda bisa memanggil /static/components.min.js
+app.use("/static/*", serveStatic({ 
+  root: "./", 
+  rewriteRequestPath: (path) => path.replace(/^\/static/, isProd ? "/public/dist" : "/src/static" ),
+}));
 
 // Serving template halaman
 app.get(
@@ -28,6 +30,6 @@ app.get(
 app.get("*", serveStatic({ path: "/src/views/index.html" }));
 
 export default {
-  port: 3000,
+  port: process.env.PORT ? Number(process.env.PORT) : 3000,
   fetch: app.fetch,
 };

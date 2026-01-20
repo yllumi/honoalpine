@@ -29,7 +29,7 @@
   $heroicHelper.toastr = function (
     message,
     type = "success",
-    position = "top"
+    position = "top",
   ) {
     if (typeof Toastify === "undefined") {
       console.warn("Toastify not loaded yet");
@@ -227,7 +227,7 @@
       is_xhtml || typeof is_xhtml === "undefined" ? "<br />" : "<br>";
     return (str + "").replace(
       /([^>\r\n]?)(\r\n|\n\r|\r|\n)/g,
-      "$1" + breakTag + "$2"
+      "$1" + breakTag + "$2",
     );
   };
 
@@ -276,4 +276,45 @@
       }
     }
   })();
+  
+  // ==================== // ==================== // ==================== //
+  // Function helper untuk memuat dan memasang komponen
+  // ==================== // ==================== // ==================== //
+  const templateCache = {};
+  $heroicHelper.loadComponent = async function (element, path) {
+    let html;
+  
+    // 1. Cek apakah template sudah ada di cache
+    if (templateCache[path]) {
+      html = templateCache[path];
+    } else {
+      // 2. Jika belum ada, fetch dari server
+      const res = await fetch(path);
+      html = await res.text();
+      // Simpan ke cache untuk penggunaan berikutnya
+      templateCache[path] = html;
+    }
+  
+    // 3. Proses "Props" (sama seperti sebelumnya)
+    let processedHtml = html;
+    for (let i = 0; i < element.attributes.length; i++) {
+      const attr = element.attributes[i];
+      const placeholder = new RegExp(`{{${attr.name}}}`, "g");
+      processedHtml = processedHtml.replace(placeholder, attr.value);
+    }
+  
+    // 4. Ganti placeholder yang tersisa dengan empty string
+    processedHtml = processedHtml.replace(/\{\{[^}]+\}\}/g, "");
+  
+    element.innerHTML = processedHtml;
+  
+    // 5. Beritahu Alpine untuk memproses elemen baru ini
+    if (window.Alpine) {
+      window.Alpine.initTree(element);
+    }
+  };
+  
+  // Expose ke global scope untuk kompatibilitas
+  window.loadComponent = $heroicHelper.loadComponent;
 })();
+

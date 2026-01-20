@@ -7,7 +7,7 @@
 </style>
 
 <section id="home" x-data="home">
-  <ha-header title="Homepage"></ha-header>
+  <ha-header :title="title"></ha-header>
 
   <div id="appCapsule" class="px-3">
     <div class="blog-list mt-2">
@@ -30,6 +30,7 @@
 <script>
   Alpine.data("home", function () {
     return {
+      title: "Beranda",
       description: "Artikel Terbaru",
       blog: [],
 

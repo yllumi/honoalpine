@@ -1,8 +1,10 @@
 {
   "name": "honoalpine",
+  "type": "module",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
-    "build": "bun build src/index.ts"
+    "build:assets": "bun build.ts",
+    "start": "bun run build:assets && NODE_ENV=production bun src/index.ts"
   },
   "dependencies": {
     "hono": "^4.11.3",

@@ -1,17 +1,7 @@
 import { Hono } from 'hono'
-import mysql from 'mysql2/promise'
+import { pool } from '../config/db'
 
 const home = new Hono()
-
-// Konfigurasi Koneksi Database
-const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'admin',      // Sesuaikan dengan user mysql Anda
-  password: 'admin',      // Sesuaikan dengan password mysql Anda
-  database: 'masagi',
-  waitForConnections: true,
-  connectionLimit: 10,
-});
 
 home.get('/', async (c) => {
   try {
