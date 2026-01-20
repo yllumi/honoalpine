@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { pool } from '../config/db'
+import pool from '../config/db'
 
 const home = new Hono()
 
