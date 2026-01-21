@@ -1,11 +1,15 @@
 import { Hono } from 'hono'
-import home from './controllers/home'
-import about from './controllers/about'
+import notFound from './pages/notfound/controller'
+import home from './pages/home/controller'
+import about from './pages/about/controller'
+import hello from './pages/hello/controller'
 
-// Semua route disini under segment /api
-const api = new Hono().basePath('/api')
+// Semua route disini under segment /page
+const page = new Hono().basePath('/page')
 
-api.route('/home', home)
-api.route('/about', about)
+page.route('/notfound', notFound)
+page.route('/home', home)
+page.route('/about', about)
+page.route('/hello', hello)
 
-export default api
+export default page
