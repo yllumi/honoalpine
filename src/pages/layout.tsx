@@ -24,8 +24,6 @@ export const Layout = () => {
         <div id="router" x-data>
           <template x-route="/" x-template="/page/home"></template>
           <template x-route="notfound" x-template="/page/notfound"></template>
-          <template x-route="/about" x-template="/page/about"></template>
-          <template x-route="/hello" x-template="/page/hello"></template>
         </div>
       </body>
     </html>
