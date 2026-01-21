@@ -21,7 +21,17 @@ app.get(
   serveStatic({ 
     root: "./", 
     rewriteRequestPath: (path) => path.replace(/^\/template/, '/src/views/pages'),
-    mimes: { html: "text/html" }
+    mimes: { html: "text/html" },
+  })
+);
+
+// Serving template partial
+app.get(
+  "/component/*",
+  serveStatic({ 
+    root: "./", 
+    rewriteRequestPath: (path) => path.replace(/^\/component/, '/src/views/components'),
+    mimes: { html: "text/html" },
   })
 );
 

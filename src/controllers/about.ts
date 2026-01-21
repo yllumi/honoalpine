@@ -5,7 +5,7 @@ const about = new Hono()
 about.get('/', async (c) => {
   return c.json({ 
     status: 'ok', 
-    message: 'Ini data untuk halaman about!' 
+    description: 'Ini data untuk halaman about!' 
   })
 })
 

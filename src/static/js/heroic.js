@@ -1,36 +1,32 @@
 (function () {
   "use strict";
 
-  // INISIALISASI SEGERA - $heroicHelper langsung tersedia
-  window.$heroicHelper = window.$heroicHelper || {};
-  const $heroicHelper = window.$heroicHelper;
+  // INISIALISASI SEGERA - $heroic langsung tersedia
+  window.$heroic = window.$heroic || {};
+  const $heroic = window.$heroic;
 
   // Definisikan base_url jika belum ada
   window.base_url = window.base_url || "";
 
-  window.$heroicHelper.cached = {};
+  window.$heroic.cached = {};
 
   // Fungsi untuk menyimpan cache
-  $heroicHelper.setCache = function (key, data) {
-    $heroicHelper.cached[key] = data;
+  $heroic.setCache = function (key, data) {
+    $heroic.cached[key] = data;
   };
 
   // Fungsi untuk mengambil cache
-  $heroicHelper.getCache = function (key) {
-    return $heroicHelper.cached[key] ?? null;
+  $heroic.getCache = function (key) {
+    return $heroic.cached[key] ?? null;
   };
 
   // Fungsi untuk menghapus cache
-  $heroicHelper.clearCache = function (key) {
-    delete $heroicHelper.cached[key];
+  $heroic.clearCache = function (key) {
+    delete $heroic.cached[key];
   };
 
   // Contoh fungsi
-  $heroicHelper.toastr = function (
-    message,
-    type = "success",
-    position = "top",
-  ) {
+  $heroic.toastr = function (message, type = "success", position = "top") {
     if (typeof Toastify === "undefined") {
       console.warn("Toastify not loaded yet");
       return;
@@ -48,7 +44,7 @@
   /**************************************************************************
    * Fetch Ajax Data
    **************************************************************************/
-  $heroicHelper.fetch = function (url, headers = {}) {
+  $heroic.fetch = function (url, headers = {}) {
     // Pastikan base_url diakhiri dengan '/'
     if (!window.base_url.endsWith("/")) {
       window.base_url += "/";
@@ -116,7 +112,7 @@
   /**************************************************************************
    * Post Ajax Data
    **************************************************************************/
-  $heroicHelper.post = function (url, data = {}, headers = {}) {
+  $heroic.post = function (url, data = {}, headers = {}) {
     // Membuat objek FormData
     const formData = new FormData();
 
@@ -193,12 +189,111 @@
       });
   };
 
+  $heroic.page = function ({
+    title = null,
+    url = null,
+    clearCachePath = false,
+    headers = {},
+    meta = {},
+  } = {}) {
+    return {
+      // Configuration properties
+      config: {
+        title,
+        url,
+        headers,
+        clearCachePath,
+      },
+
+      // UI properties
+      ui: {
+        loading: false,
+        submitting: false,
+        empty: false,
+        nextPage: null,
+        loadMore: false,
+        error: false,
+        errorMessage: "",
+      },
+
+      // Raw data and meta properties
+      data: {},
+
+      // Another custom data set by user
+      meta: meta,
+
+      // Function to initialize the page
+      init() {
+        // Set the page title
+        this._setTitle();
+
+        if (this.config.clearCachePath) {
+          // Clear cached data
+          $heroic .clearCache(this.config.clearCachePath);
+        }
+
+        this.loadPage();
+      },
+
+      loadPage(fetchUrl = null) {
+        // Prevent same url fetch many times if already loaded
+        if (fetchUrl == this.config.url) return;
+
+        this.config.url = fetchUrl ?? this.config.url;
+
+        // Initialize page data if requested
+        if (this.config.url) {
+          // Use cached data if exists
+          if ($heroic.getCache(this.config.url)) {
+            this.data = $heroic.getCache(this.config.url);
+          } else {
+            this.fetchData();
+          }
+        }
+        window.scrollTo(0, 0);
+      },
+
+      fetchData() {
+        this.ui.loading = true;
+        $heroic
+          .fetch(this.config.url, this.config.headers)
+          .then((response) => {
+            if (response.status == 200) {
+              this.assignResponseData(response);
+            } else {
+              this.ui.error = true;
+              this.ui.errorMessage = response.message;
+            }
+          })
+          .catch((error) => {
+            this.ui.error = true;
+            console.error("Error fetching page data:", error);
+          })
+          .finally(() => {
+            this.ui.loading = false;
+          });
+      },
+
+      assignResponseData(response, cache = true) {
+        this.data = response.data;
+
+        if (cache) $heroic.setCache(this.config.url, this.data);
+      },
+
+      _setTitle() {
+        if (this.config.title) {
+          document.title = this.config.title;
+        }
+      },
+    };
+  };
+
   /**************************************************************************
    * Helper Functions
    **************************************************************************/
 
   // COOKIE SETTER GETTER
-  $heroicHelper.setCookie = function (name, value, days) {
+  $heroic.setCookie = function (name, value, days) {
     let expires = "";
     if (days) {
       let date = new Date();
@@ -208,7 +303,7 @@
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
   };
 
-  $heroicHelper.getCookie = function (name) {
+  $heroic.getCookie = function (name) {
     let nameEQ = name + "=";
     let ca = document.cookie.split(";");
     for (let i = 0; i < ca.length; i++) {
@@ -219,7 +314,7 @@
     return null;
   };
 
-  $heroicHelper.nl2br = function (str, is_xhtml) {
+  $heroic.nl2br = function (str, is_xhtml) {
     if (typeof str === "undefined" || str === null) {
       return "";
     }
@@ -231,7 +326,7 @@
     );
   };
 
-  $heroicHelper.formatDate = function (dateString) {
+  $heroic.formatDate = function (dateString) {
     if (dateString && dateString != "0000-00-00") {
       const date = new Date(dateString);
       const options = { day: "numeric", month: "long", year: "numeric" };
@@ -240,7 +335,7 @@
     return "";
   };
 
-  $heroicHelper.currency = function (amount) {
+  $heroic.currency = function (amount) {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
@@ -276,14 +371,14 @@
       }
     }
   })();
-  
+
   // ==================== // ==================== // ==================== //
   // Function helper untuk memuat dan memasang komponen
   // ==================== // ==================== // ==================== //
   const templateCache = {};
-  $heroicHelper.loadComponent = async function (element, path) {
+  $heroic.loadComponent = async function (element, path) {
     let html;
-  
+
     // 1. Cek apakah template sudah ada di cache
     if (templateCache[path]) {
       html = templateCache[path];
@@ -294,7 +389,7 @@
       // Simpan ke cache untuk penggunaan berikutnya
       templateCache[path] = html;
     }
-  
+
     // 3. Proses "Props" (sama seperti sebelumnya)
     let processedHtml = html;
     for (let i = 0; i < element.attributes.length; i++) {
@@ -302,19 +397,18 @@
       const placeholder = new RegExp(`{{${attr.name}}}`, "g");
       processedHtml = processedHtml.replace(placeholder, attr.value);
     }
-  
+
     // 4. Ganti placeholder yang tersisa dengan empty string
     processedHtml = processedHtml.replace(/\{\{[^}]+\}\}/g, "");
-  
+
     element.innerHTML = processedHtml;
-  
+
     // 5. Beritahu Alpine untuk memproses elemen baru ini
     if (window.Alpine) {
       window.Alpine.initTree(element);
     }
   };
-  
-  // Expose ke global scope untuk kompatibilitas
-  window.loadComponent = $heroicHelper.loadComponent;
-})();
 
+  // Expose ke global scope untuk kompatibilitas
+  window.loadComponent = $heroic.loadComponent;
+})();

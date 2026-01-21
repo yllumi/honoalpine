@@ -9,12 +9,16 @@ home.get('/', async (c) => {
     const [rows] = await pool.query('SELECT id, title, content FROM mein_microblogs ORDER BY id DESC');
     
     return c.json({ 
-      status: 'ok', 
-      data: rows 
+      status: 'ok',
+      blog: rows 
     });
+
   } catch (error) {
     console.error(error);
-    return c.json({ status: 'error', message: 'Gagal mengambil data' }, 500);
+    return c.json({ 
+      status: 'error', 
+      message: 'Gagal mengambil data' 
+    }, 500);
   }
 })
 

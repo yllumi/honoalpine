@@ -1,22 +1,13 @@
-<div id="about" x-data="about">
+<div id="about" x-data="$heroic.page({url:'api/about'})">
+  <template x-if="!ui.loading">
+    <section x-init="Alpine.store('core').module = 'about'">
+      <ha-header title="About Us"></ha-header>
 
-  <ha-header title="About us"></ha-header>
-  
-  <div id="appCapsule" class="px-3 mt-3">
-    <p x-html="description"></p>
-  </div>
+      <div id="appCapsule" class="px-3 mt-3">
+        <p x-html="data.description"></p>
+      </div>
 
-  <ha-bottommenu></ha-bottommenu>
+      <ha-bottommenu></ha-bottommenu>
+    </section>
+  </template>
 </div>
-
-<script>
-  Alpine.data("about", function () {
-    return {
-      description: "Contoh teks atau dummy dalam industri percetakan dan penataan huruf atau typesetting. Lorem Ipsum telah menjadi standar contoh teks sejak tahun 1500an, saat seorang tukang cetak yang tidak dikenal mengambil sebuah kumpulan teks dan mengacaknya untuk menjadi sebuah buku contoh huruf. Ia tidak hanya bertahan selama 5 abad",
-
-      init() {
-        Alpine.store('core').module = 'about';
-      },
-    };
-  });
-</script>

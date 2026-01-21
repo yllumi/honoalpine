@@ -13,9 +13,9 @@ console.log("📦 Building frontend assets...");
 // 2. Jalankan Bun Build untuk minify
 const jsResult = await Bun.build({
   entrypoints: [
+    "./src/static/js/heroic.js",
     "./src/static/js/components.js",
     "./src/static/js/main.js",
-    "./src/static/js/helpers.js",
   ],
   outdir: "./public/dist/js",
   minify: true,

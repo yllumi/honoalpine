@@ -3,8 +3,8 @@
 // ==================== // ==================== // ==================== //
 
 customElements.define('ha-bottommenu', class extends HTMLElement {
-    connectedCallback() { loadComponent(this, '/template/partials/bottommenu.html'); }
+    connectedCallback() { loadComponent(this, '/component/bottommenu.html'); }
 });
 customElements.define('ha-header', class extends HTMLElement {
-    connectedCallback() { loadComponent(this, '/template/partials/header.html'); }
+    connectedCallback() { loadComponent(this, '/component/header.html'); }
 });
