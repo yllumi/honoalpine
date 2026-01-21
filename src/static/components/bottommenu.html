@@ -1,9 +1,9 @@
 <div class="appBottomMenu shadow-lg px-0">
   <a
     href="/"
+    native
     id="bottommenu-member"
     class="item"
-    :class="Alpine.store('core').module == 'home' ? 'active' : ''"
   >
     <div class="col">
       <i class="bi bi-house"></i>
@@ -22,14 +22,14 @@
     </div>
   </a>
   <a
-    href="/hello"
+    href="/blog"
     id="bottommenu-member"
     class="item"
-    :class="Alpine.store('core').module == 'hello' ? 'active' : ''"
+    :class="Alpine.store('core').module == 'blog' ? 'active' : ''"
   >
     <div class="col">
       <i class="bi bi-person-vcard"></i>
-      <strong class="">Anggota</strong>
+      <strong class="">Blog</strong>
     </div>
   </a>
   <a

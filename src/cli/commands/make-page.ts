@@ -79,12 +79,11 @@ import scriptContent from "./script.js?raw"
       <div x-data="${pageName}">`;
   } else {
     templateContent += `
-      <div>`;
+      <div>
+      `;
   }
 
   templateContent += `
-        <ha-header title="${PageName}"></ha-header>
-
         <div id="appCapsule" class="px-3 mt-5">
           <h1>Welcome to ${PageName} Page</h1>
           <p x-html="data.message"></p>
@@ -97,8 +96,7 @@ import scriptContent from "./script.js?raw"
 
   templateContent += `
         </div>
-
-        <ha-bottommenu></ha-bottommenu>`;
+        `;
 
   if(withScript) {
     templateContent += `

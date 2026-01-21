@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import page from "./routes";
-import { Layout } from "./pages/layout";
+import { AppLayout } from "./pages/appLayout";
 
 const app = new Hono();
 const isProd = process.env.NODE_ENV === 'production';
@@ -19,7 +19,7 @@ app.use("/static/*", serveStatic({
 // Halaman utama sekaligus fallback menampilkan main layout
 // karena frontend routing di-handle oleh Alpine + Pinecone Router
 app.get("*", async (c) => {
-  return c.html(<Layout />)
+  return c.html(<AppLayout />)
 });
 
 export default {

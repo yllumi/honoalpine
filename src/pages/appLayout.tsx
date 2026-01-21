@@ -1,4 +1,4 @@
-export const Layout = () => {
+export const AppLayout = () => {
   return (
     <html>
       <head>
@@ -22,8 +22,9 @@ export const Layout = () => {
         <div id="app" x-data></div>
 
         <div id="router" x-data>
-          <template x-route="/" x-template="/page/home"></template>
-          <template x-route="notfound" x-template="/page/notfound"></template>
+          <template x-route="/blog" x-template="/blog/template"></template>
+          <template x-route="/about" x-template="/about/template"></template>
+          <template x-route="notfound" x-template="/notfound/template"></template>
         </div>
       </body>
     </html>

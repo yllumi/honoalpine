@@ -3,7 +3,7 @@ import { NotFoundTemplate } from './template'
 
 const notFound = new Hono()
 
-notFound.get('/', (c) => {
+notFound.get('/template', (c) => {
   return c.html(<NotFoundTemplate />)
 })
 
