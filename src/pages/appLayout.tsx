@@ -22,6 +22,7 @@ export const AppLayout = () => {
         <div id="app" x-data></div>
 
         <div id="router" x-data>
+          <template x-route="/dashboard" x-template="/dashboard/template"></template>
           <template x-route="/blog" x-template="/blog/template"></template>
           <template x-route="/about" x-template="/about/template"></template>
           <template x-route="notfound" x-template="/notfound/template"></template>
